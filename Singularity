@@ -33,3 +33,4 @@ MirrorURL: http://us.archive.ubuntu.com/ubuntu/
 
 %test
     # commands to be executed within container at close of bootstrap process
+
