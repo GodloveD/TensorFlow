@@ -41,3 +41,4 @@ Include: yum wget
 
 %test
     # commands to be executed within container at close of bootstrap process
+
