@@ -1,7 +1,5 @@
-BootStrap: yum
-OSVersion: 7
-MirrorURL: http://mirror.centos.org/centos-%{OSVERSION}/%{OSVERSION}/os/$basearch/
-Include: yum wget
+BootStrap: docker
+From: nvidia/cuda:8.0-cudnn5-devel-centos7
 
 %setup
     # commands to be executed on host outside container during bootstrap
@@ -9,28 +7,20 @@ Include: yum wget
 %post
     # commands to be executed inside container during bootstrap
 
-    # yum needs some tlc to work properly in container
-    RELEASEVER=7
-    ARCH=x86_64
-    echo $RELEASEVER > /etc/yum/vars/releasever
-    echo $ARCH > /etc/yum/vars/arch
-    yum -y install epel-release
-    # wget http://dl.fedoraproject.org/pub/epel/7/x86_64/e/epel-release-7-9.noarch.rpm
-    # rpm -ivh --nodeps epel-release-7-8.noarch.rpm
-    yum -d 10 check-update
-
     # install other needed packages
-    yum -y install man which tar gzip vim-minimal perl python python-dev python-pip \
-	util-linux
+    yum -d 10 check-update
+    yum -y install vim-minimal
+    yum -y install epel-release
+    yum -y install python-pip wget which perl
 
     # create bind points for NIH HPC environment
     mkdir /gpfs /spin1 /gs2 /gs3 /gs4 /gs5 /gs6 /data /scratch /fdb /lscratch
 
     # download and run NIH HPC cuda for singularity installer
-    wget ftp://helix.nih.gov/CUDA/cuda4singularity-dev
-    chmod 755 cuda4singularity-dev 
-    ./cuda4singularity-dev --verbose
-    rm cuda4singularity-dev
+    wget ftp://helix.nih.gov/CUDA/cuda4singularity
+    chmod 755 cuda4singularity 
+    ./cuda4singularity --verbose
+    rm cuda4singularity
 
     # install tensorflow
     pip install --upgrade pip
@@ -41,4 +31,3 @@ Include: yum wget
 
 %test
     # commands to be executed within container at close of bootstrap process
-
