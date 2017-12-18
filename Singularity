@@ -1,5 +1,5 @@
 BootStrap: docker
-From: nvidia/cuda:8.0-cudnn7-devel
+From: nvidia/cuda:8.0-cudnn6-devel
 
 %post
 
