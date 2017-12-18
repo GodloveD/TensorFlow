@@ -3,7 +3,6 @@ From: nvidia/cuda:8.0-cudnn6-devel
 
 %post
 
-    # add universe repo and install some packages
     apt-get -y update
     apt-get -y install vim wget perl python python-pip python-dev
 
